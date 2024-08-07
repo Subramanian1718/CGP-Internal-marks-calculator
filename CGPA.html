@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CGPA Calculator</title>
+    <script language="javascript" type="text/javascript">
+        function getGradePoints(grade) {
+            switch (grade.toUpperCase()) {
+                case 'S':
+                    return 40;
+                case 'A':
+                    return 36;
+                case 'B':
+                    return 32;
+                case 'C':
+                case 'D':
+                    return 28;
+                case 'E':
+                case 'F':
+                    return 0;
+                default:
+                    return null;
+            }
+        }
+
+        function validateGrade(grade) {
+            return ['S', 'A', 'B', 'C', 'D', 'E', 'F'].includes(grade.toUpperCase());
+        }
+
+        function addition() {
+            let theoryGrades = [];
+            for (let i = 1; i <= 6; i++) {
+                let gradeElement = document.getElementById(`n${i}`);
+                if (gradeElement && gradeElement.style.display !== "none" && gradeElement.value) {
+                    if (validateGrade(gradeElement.value)) {
+                        theoryGrades.push(getGradePoints(gradeElement.value));
+                    } else {
+                        alert(`Invalid input: ${gradeElement.value} for Subject ${i}`);
+                        return;
+                    }
+                }
+            }
+
+            let practicalGrades = [];
+            for (let i = 7; i <= 9; i++) {
+                let gradeElement = document.getElementById(`n${i}`);
+                if (gradeElement && gradeElement.style.display !== "none" && gradeElement.value) {
+                    if (validateGrade(gradeElement.value)) {
+                        practicalGrades.push(getGradePoints(gradeElement.value) / 2); // Practical subjects have half the points
+                    } else {
+                        alert(`Invalid input: ${gradeElement.value} for Lab ${i - 6}`);
+                        return;
+                    }
+                }
+            }
+
+            let totalPoints = [...theoryGrades, ...practicalGrades].reduce((a, b) => a + b, 0);
+            let cgpa = totalPoints / 30;
+            document.getElementById("t").value = cgpa.toFixed(2);
+        }
+
+        function updateSubjects() {
+            let semester = document.getElementById("semester").value;
+            let subjects = document.getElementsByClassName("subject");
+            let labs = document.getElementsByClassName("lab");
+
+            for (let i = 0; i < subjects.length; i++) {
+                subjects[i].style.display = "none";
+            }
+            for (let i = 0; i < labs.length; i++) {
+                labs[i].style.display = "none";
+            }
+
+            if (semester == 7) {
+                for (let i = 0; i < 5; i++) {
+                    subjects[i].style.display = "block";
+                }
+                for (let i = 0; i < 3; i++) {
+                    labs[i].style.display = "block";
+                }
+            } else if (semester == 8) {
+                for (let i = 0; i < 2; i++) {
+                    subjects[i].style.display = "block";
+                }
+                labs[0].style.display = "block";
+            } else {
+                for (let i = 0; i < subjects.length; i++) {
+                    subjects[i].style.display = "block";
+                }
+                for (let i = 0; i < labs.length; i++) {
+                    labs[i].style.display = "block";
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-image: url('image-cgpa.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body onload="updateSubjects()">
+<center>
+<form name="Calculator">
+    <h1>CGPA CALCULATOR</h1>
+    <label for="semester">Select Semester:</label>
+    <select id="semester" onchange="updateSubjects()">
+        <option value="1">Semester 1</option>
+        <option value="2">Semester 2</option>
+        <option value="3">Semester 3</option>
+        <option value="4">Semester 4</option>
+        <option value="5">Semester 5</option>
+        <option value="6">Semester 6</option>
+        <option value="7">Semester 7</option>
+        <option value="8">Semester 8</option>
+    </select>
+    <br>
+    <h1>THEORY</h1>
+    <div class="subject"><label><b>Subject 1:</label>
+    <input type="text" name="number1" id="n1" placeholder="Enter the grade">
+    <br><br></div>
+    
+    <div class="subject"><label>Subject 2:</label>
+    <input type="text" name="number2" id="n2" placeholder="Enter the grade">
+    <br><br></div>
+    
+    <div class="subject"><label>Subject 3:</label>
+    <input type="text" name="number3" id="n3" placeholder="Enter the grade">
+    <br><br></div>
+    
+    <div class="subject"><label>Subject 4:</label>
+    <input type="text" name="number4" id="n4" placeholder="Enter the grade">
+    <br><br></div>
+    
+    <div class="subject"><label>Subject 5:</label>
+    <input type="text" name="number5" id="n5" placeholder="Enter the grade">
+    <br><br></div>
+    
+    <div class="subject"><label>Subject 6:</label>
+    <input type="text" name="number6" id="n6" placeholder="Enter the grade">
+    <br></div>
+    
+    <h1>PRACTICALS</h1>
+    <div class="lab"><label>Lab 1:</label>
+    <input type="text" name="number7" id="n7" placeholder="Enter the grade in Lab:">
+    <br><br></div>
+    
+    <div class="lab"><label>Lab 2:</label>
+    <input type="text" name="number8" id="n8" placeholder="Enter the grade in Lab:">
+    <br><br></div>
+    
+    <div class="lab"><label>Lab 3:</label>
+    <input type="text" name="number9" id="n9" placeholder="Enter the grade in Lab:">
+    <br><br></div>
+    
+    <input type="button" value="CGPA CALCULATION" onclick="addition();">
+    <br><br>
+    
+    <h3>Your CGPA: <input type="text" name="total" id="t"><br></h3>
+</form>
+</center>
+</body>
+</html>

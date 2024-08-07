@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Internal Marks Calculator</title>
+    <style type="text/css">
+        h1, h3 {
+            text-align:center;
+        }
+        h1 {
+            color: black;
+        }
+        h3 {
+            color: rgb(4, 1, 19);
+        }
+        body {
+            background-image: url('image-int.jpeg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .input-field {
+            margin-bottom: 15px;
+        }
+        .input-label {
+            display: inline-block;
+            width: 150px;
+            text-align: right;
+            margin-right: 10px;
+        }
+    </style>
+    <script language="javascript" type="text/javascript">
+        function addition() {
+            let internal1 = Number(document.getElementById("i1").value);
+            let internal2 = Number(document.getElementById("i2").value);
+            let model = Number(document.getElementById("n3").value);
+            let assignment1 = Number(document.getElementById("ass1").value);
+            let assignment2 = Number(document.getElementById("ass2").value);
+            let percentage = Number(document.getElementById("per").value);
+
+            // Calculate internal marks
+            let internalTotal = internal1 + internal2 + model;
+            let internalAverage = internalTotal / 3;
+            let internalMarks = internalAverage / 10;
+
+            // Calculate assignment marks
+            let assignmentTotal = assignment1 + assignment2;
+
+            // Calculate attendance marks
+            let attendanceMarks;
+            if (percentage >= 95) {
+                attendanceMarks = 5;
+            } else if (percentage >= 90 && percentage < 95) {
+                attendanceMarks = 4;
+            } else if (percentage >= 85 && percentage < 90) {
+                attendanceMarks = 3;
+            } else if (percentage >= 80 && percentage < 85) {
+                attendanceMarks = 2;
+            } else if (percentage >= 75 && percentage < 80) {
+                attendanceMarks = 1;
+            } else {
+                attendanceMarks = 0;
+            }
+
+            // Calculate the final total marks
+            let total = attendanceMarks + assignmentTotal + internalMarks;
+
+            // Ensure the total does not exceed 25
+            total = Math.min(total, 25);
+
+            // Display the final total marks in the result field
+            document.getElementById("t").value = total.toFixed(2) + " / 25";
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form name="Calculator">
+            <h1>INTERNAL MARKS CALCULATOR</h1>
+
+            <div class="input-field">
+                <label class="input-label"><h3>Internal 1:</h3></label>
+                <input type="number" placeholder="Enter internal 1 mark" id="i1">
+            </div>
+
+            <div class="input-field">
+                <label class="input-label"><h3>Internal 2:</h3></label>
+                <input type="number" placeholder="Enter internal 2 mark" id="i2">
+            </div>
+
+            <div class="input-field">
+                <label class="input-label"><h3>Model:</h3></label>
+                <input type="number" placeholder="Enter Model mark" id="n3">
+            </div>
+
+            <div class="input-field">
+                <label class="input-label"><h3>Assignment 1:</h3></label>
+                <input type="number" placeholder="Enter assignment mark" id="ass1">
+            </div>
+
+            <div class="input-field">
+                <label class="input-label"><h3>Assignment 2:</h3></label>
+                <input type="number" placeholder="Enter assignment mark" id="ass2">
+            </div>
+
+            <div class="input-field">
+                <label class="input-label"><h3> Attendance:</h3></label>
+                <input type="number" placeholder="Enter percentage" id="per">
+            </div>
+
+            <br>
+            <input type="button" value="Calculate Internal Mark" onclick="addition();">
+            <br><br>
+            <h3>Result: <input type="text" id="t" readonly></h3>
+        </form>
+    </div>
+</body>
+</html>
